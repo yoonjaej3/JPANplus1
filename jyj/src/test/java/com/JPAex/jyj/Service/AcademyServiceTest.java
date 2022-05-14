@@ -5,10 +5,7 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Before;
 import org.assertj.core.api.Assertions;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -19,6 +16,7 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+
 
 @SpringBootTest
 class AcademyServiceTest {
@@ -31,11 +29,11 @@ class AcademyServiceTest {
     @Autowired
     private AcademyService academyService;
 
-    @AfterEach
-    public void cleanAll() {
-        academyRepository.deleteAll();
-        teacherRepository.deleteAll();
-    }
+//    @AfterEach
+//    public void cleanAll() {
+//        academyRepository.deleteAll();
+//        teacherRepository.deleteAll();
+//    }
 
     @BeforeEach
     public void setup() {
@@ -48,7 +46,7 @@ class AcademyServiceTest {
                     .name("강남스쿨" + i)
                     .build();
 
-            academy.addSubject(Subject.builder().name("자바웹개발" + i).teacher(teacher).build());
+            academy.addSubject(Subject.builder().name("자바웹개발"+i).teacher(teacher).build());
             academy.addSubject(Subject.builder().name("파이썬자동화" + i).teacher(teacher).build()); // Subject를 추가
             academies.add(academy);
         }
@@ -57,6 +55,7 @@ class AcademyServiceTest {
     }
 
     @Test
+    @DisplayName("N+1문제")
     public void Academy여러개를_조회시_Subject가_N1_쿼리가발생한다() throws Exception {
         //given
         List<String> subjectNames = academyService.findAllSubjectNames();
@@ -66,6 +65,7 @@ class AcademyServiceTest {
     }
 
     @Test
+    @DisplayName("joinFetch")
     public void Academy여러개를_joinFetch로_가져온다() throws Exception {
         //given
         List<Academy> academies = academyRepository.findAllJoinFetch();

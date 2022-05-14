@@ -19,8 +19,8 @@ public class Academy {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="academy_id")
+    @OneToMany(mappedBy = "academy", cascade = CascadeType.ALL)
+    //@JoinColumn(name="academy_id")
     private List<Subject> subjects = new ArrayList<>();
 
     @Builder

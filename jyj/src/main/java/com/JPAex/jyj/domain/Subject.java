@@ -17,7 +17,8 @@ public class Subject {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "academy_id", foreignKey = @ForeignKey(name = "FK_SUBJECT_ACADEMY"))
+    //@JoinColumn(name = "academy_id", foreignKey = @ForeignKey(name = "FK_SUBJECT_ACADEMY"))
+    @JoinColumn(name="academy_id")
     private Academy academy;
 
     @ManyToOne(fetch = FetchType.LAZY)
